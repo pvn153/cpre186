@@ -1,0 +1,30 @@
+//List View//
+
+/* floating action button //should go in the body
+floatingActionButton: FloatingActionButton.extended(
+          icon: Icon(Icons.settings),
+          label: Text("Settings"),
+          onPressed: (){},
+          ),
+*/
+
+//liew View Widget
+Widget myListView(BuildContext context){
+  return ListView(
+    children: ListTile.divideTiles(
+      context: context,
+      tiles: [
+        ListTile(
+          leading: Icon(Icons.vibration),
+          title: Text("Vibration"),
+          onTap: (){},
+        ),
+        ListTile(
+          leading: Icon(Icons.surround_sound),
+          title: Text("Sound"),
+          onTap: (){},
+        ),
+      ],
+    ).toList(),
+  );
+}
