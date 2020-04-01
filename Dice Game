@@ -1,0 +1,147 @@
+
+void main() {
+  runApp(
+    MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/': (context)=> MyHomePage(),
+        '/settings': (context)=> SettingsPage(),
+        '/rps': (context)=> RPS(),
+        '/ttt': (context)=> TTT(),
+        '/dice': (context) => DICE(),
+      },
+    ),
+  );
+}
+
+class MyHomePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      backgroundColor: Colors.blueGrey[800],
+      appBar: AppBar(
+        title: Text('Gamertime'),
+        backgroundColor: Colors.blueGrey,
+      ),
+      body: ListView(
+        children: <Widget>[
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.adb),
+              title: Text('Rock Paper Scissors'),
+              onTap: (){Navigator.pushNamed(context, '/rps');},
+            ),
+          ),
+          Card(
+              child: ListTile(
+                leading: Icon(Icons.cached),
+                title: Text('Tic-Tac-Toe'),
+                onTap: (){Navigator.pushNamed(context, '/ttt');},
+              )
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.adb),
+              title: Text('Dice Throwing'),
+              onTap: (){Navigator.pushNamed(context, '/dice');},
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: bottomNavBar(context, 0),
+    );
+  }
+}
+
+class RandomDice extends StatefulWidget{
+  @override
+  _Random createState() {
+    return _Random();
+  }
+}
+
+
+class _Random extends State<RandomDice>{
+  int iterations = 0;
+  int getIteration(){
+    return iterations;
+  }
+  @override
+  Widget build(BuildContext context){
+    if (iterations < 1) {
+      return SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              InkWell(
+                  child: Image.asset('images/GenericDice.png',
+                    height: 200,
+                    width: 200,
+                  ),
+                  onTap: () {
+                    setState(() {
+                      iterations = 1;
+                    });
+                  }
+              ),
+            ],
+          )
+      );
+    }
+    else {
+      String outcome;
+      DateTime seed = new DateTime.now();
+      Random rand = new Random(seed.millisecondsSinceEpoch);
+      int diceNum = rand.nextInt(5)+1;
+
+      //Assigns playerChoice string
+      if (diceNum == 1){
+        outcome = 'images/OneSidedDie.png';
+      }
+      else if (diceNum == 2){
+        outcome = 'images/TwoSidedDie.png';
+      }
+      else if (diceNum == 3){
+        outcome = 'images/ThreeSidedDie.png';
+      }
+      else if (diceNum == 4){
+        outcome = 'images/FourSidedDie.png';
+      }
+      else if (diceNum == 5){
+        outcome = 'images/FiveSidedDie.png';
+      }
+      else if (diceNum == 6){
+        outcome = 'images/SixSidedDie.png';
+      }
+
+
+      return SingleChildScrollView(child: Column(
+        children: <Widget>[
+          Text("You got a " + diceNum.toString() + "-sided die!",
+            style: TextStyle(fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),),
+          Image.asset(outcome,
+              height: 100,
+              width: 100),
+                    SizedBox(height: 300),
+          Card(child: Padding(child: InkWell(
+              onTap: () {
+                setState(() {
+                  iterations = 0;
+                });
+              },
+              child: Text("Play Again?",
+                style: TextStyle(fontSize: 30,
+                    color: Colors.white),)
+          ),
+            padding: EdgeInsets.all(10.0),
+          ),
+            color: Colors.blueGrey,
+
+          )
+        ],
+      )
+      );
+    }
+  }
+}
